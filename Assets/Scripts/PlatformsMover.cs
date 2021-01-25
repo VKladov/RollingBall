@@ -6,10 +6,11 @@ public class PlatformsMover : MonoBehaviour
 {
     [SerializeField] private Platform _firstPlatform;
     [SerializeField] private float _visibleDistance = 10;
-    [SerializeField] private float _speed = 2;
+    [SerializeField] private float _initialSpeed = 5;
+    [SerializeField] private float _acceleration = 0.2f;
 
+    private float _speed = 5;
     private List<Platform> _platforms = new List<Platform>();
-
     private int _lastPlatformIndex;
 
     private void Start()
@@ -30,6 +31,8 @@ public class PlatformsMover : MonoBehaviour
 
         if (_platforms[_lastPlatformIndex].EndPosition.x < transform.position.x + _visibleDistance)
             MoveFirstPlatformToEnd();
+
+        _speed += _acceleration * Time.deltaTime;
     }
 
     private void MoveFirstPlatformToEnd()
@@ -37,5 +40,6 @@ public class PlatformsMover : MonoBehaviour
         Vector3 position = _platforms[_lastPlatformIndex].EndPosition;
         _lastPlatformIndex = (_lastPlatformIndex + 1) % _platforms.Count;
         _platforms[_lastPlatformIndex].transform.position = position;
+        _platforms[_lastPlatformIndex].Clear();
     }
 }

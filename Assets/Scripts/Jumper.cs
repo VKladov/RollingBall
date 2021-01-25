@@ -9,6 +9,8 @@ public class Jumper : MonoBehaviour
 
     private bool IsGrounded => Physics.Raycast(transform.position, Vector3.down, 0.3f);
 
+    public float JumpSpeed => _jumpForce / _rigidbody.mass;
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0) && IsGrounded)
