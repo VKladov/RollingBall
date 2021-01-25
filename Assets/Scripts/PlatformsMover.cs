@@ -9,12 +9,13 @@ public class PlatformsMover : MonoBehaviour
     [SerializeField] private float _initialSpeed = 5;
     [SerializeField] private float _acceleration = 0.2f;
 
-    private float _speed = 5;
+    private float _speed;
     private List<Platform> _platforms = new List<Platform>();
     private int _lastPlatformIndex;
 
     private void Start()
     {
+        _speed = _initialSpeed;
         _firstPlatform.transform.position = transform.position;
         _platforms.Add(_firstPlatform);
 
@@ -26,8 +27,9 @@ public class PlatformsMover : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Vector3 move = Vector3.left * _speed * Time.deltaTime;
         foreach (Platform platform in _platforms)
-            platform.transform.position += Vector3.left * _speed * Time.deltaTime;
+            platform.transform.position += move;
 
         if (_platforms[_lastPlatformIndex].EndPosition.x < transform.position.x + _visibleDistance)
             MoveFirstPlatformToEnd();

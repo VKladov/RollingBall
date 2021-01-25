@@ -28,8 +28,8 @@ public class Platform : MonoBehaviour
 
     public void Clear()
     {
-        foreach (var item in _obstacles)
-            item.Deactivate();
+        for (int i = 0; i < _obstacles.Count; i++)
+            _obstacles[i].Deactivate();
     }
 
     private void OnDeactivated(Obstacle obstacle)
