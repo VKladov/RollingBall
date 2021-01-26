@@ -10,12 +10,12 @@ public class GameUI : MonoBehaviour
 
     private void OnEnable()
     {
-        _player.CoinCountChanged += OnCoinCountChanged;
+        _player.CoinsChanged += OnCoinCountChanged;
     }
 
     private void OnDisable()
     {
-        _player.CoinCountChanged -= OnCoinCountChanged;
+        _player.CoinsChanged -= OnCoinCountChanged;
     }
 
     private void OnCoinCountChanged(int count)

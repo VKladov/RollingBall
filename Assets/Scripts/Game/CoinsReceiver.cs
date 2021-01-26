@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class CoinsReceiver : MonoBehaviour
 {
-    public event UnityAction<int> CoinCountChanged;
+    public event UnityAction<int> CoinsChanged;
 
     private int _coins = 0;
 
@@ -15,7 +15,7 @@ public class CoinsReceiver : MonoBehaviour
         {
             coin.Deactivate();
             _coins += 1;
-            CoinCountChanged?.Invoke(_coins);
+            CoinsChanged?.Invoke(_coins);
         }
     }
 }

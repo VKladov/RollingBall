@@ -2,55 +2,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class ObjectsPlacer : MonoBehaviour
 {
     [SerializeField] private Spawner _barrierSpawner;
-    [SerializeField] private CoinSpawner _coinSpawner;
+    [SerializeField] private CoinLineSpawner _coinLineSpawner;
+    [SerializeField] private CoinArcSpawner _coinArcSpawner;
+
+    private List<Spawner> _spawners;
 
     private void OnEnable()
     {
-        _coinSpawner.SpawnFinished += StartNextRandomAction;
+        _barrierSpawner.SpawnFinished += StartNextRandomAction;
+        _coinLineSpawner.SpawnFinished += StartNextRandomAction;
+        _coinArcSpawner.SpawnFinished += StartNextRandomAction;
+    }
+
+    private void OnDisable()
+    {
+        _barrierSpawner.SpawnFinished -= StartNextRandomAction;
+        _coinLineSpawner.SpawnFinished -= StartNextRandomAction;
+        _coinArcSpawner.SpawnFinished -= StartNextRandomAction;
     }
 
     private void Start()
     {
-        StartNextRandomAction();
-    }
+        _spawners = new List<Spawner>
+        {
+            _barrierSpawner,
+            _barrierSpawner,
+            _barrierSpawner,
+            _coinArcSpawner,
+            _coinLineSpawner
+        };
 
-    private IEnumerator SpawnCoinsArcAfter(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        _coinSpawner.SpawnArc();
-    }
-
-    private IEnumerator SpawnCoinsLineAfter(float delay, int length)
-    {
-        yield return new WaitForSeconds(delay);
-        _coinSpawner.SpawnLine(length);
-    }
-
-    private IEnumerator SpawnObstacle(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        _barrierSpawner.TrySpawn();
         StartNextRandomAction();
     }
 
     private void StartNextRandomAction()
     {
-        int nextActionIndex = Random.Range(0, 4);
-        switch (nextActionIndex)
-        {
-            case 0:
-                StartCoroutine(SpawnCoinsArcAfter(Random.Range(2, 5)));
-                break;
-            case 1:
-                StartCoroutine(SpawnCoinsLineAfter(Random.Range(2, 5), Random.Range(5, 10)));
-                break;
-            default:
-                StartCoroutine(SpawnObstacle(Random.Range(2, 3)));
-                break;
-        }
+        Spawner nextSpawner = _spawners[Random.Range(0, _spawners.Count)];
+        StartCoroutine(SpawnAfter(nextSpawner.RandomDelayBefore, nextSpawner));
+    }
+
+    private IEnumerator SpawnAfter(float delay, Spawner spawner)
+    {
+        yield return new WaitForSeconds(delay);
+        spawner.SpawnGroup();
     }
 }

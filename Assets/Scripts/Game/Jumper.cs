@@ -7,13 +7,11 @@ public class Jumper : MonoBehaviour
     [SerializeField] private float _jumpForce = 5;
     [SerializeField] private Rigidbody _rigidbody;
 
-    private bool IsGrounded => Physics.Raycast(transform.position, Vector3.down, 0.3f);
-
     public float JumpSpeed => _jumpForce / _rigidbody.mass;
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && IsGrounded)
+        if (Input.GetMouseButtonDown(0) && Physics.Raycast(transform.position, Vector3.down, 0.3f))
             Jump();
     }
 
