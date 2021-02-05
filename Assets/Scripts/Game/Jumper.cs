@@ -11,7 +11,7 @@ public class Jumper : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && Physics.Raycast(transform.position, Vector3.down, 0.3f))
+        if (Input.GetMouseButtonDown(0) && CheckGrounded())
             Jump();
     }
 
@@ -19,5 +19,10 @@ public class Jumper : MonoBehaviour
     {
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+    }
+
+    private bool CheckGrounded()
+    {
+        return Physics.Raycast(transform.position, Vector3.down, 0.3f);
     }
 }

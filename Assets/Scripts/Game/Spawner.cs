@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private ObjectsPool _buffer;
+    [SerializeField] private ObjectsPool _pool;
 
     public UnityAction SpawnFinished;
 
@@ -13,15 +13,21 @@ public class Spawner : MonoBehaviour
 
     public void TrySpawn(float offsetY = 0)
     {
-        if (Physics.Raycast(new Ray(transform.position, Vector3.down), out RaycastHit hit) &&
-            hit.transform.TryGetComponent(out Platform platform) &&
-            _buffer.TryGetNext(out Obstacle item))
-            platform.PlaceObstacle(hit.point + Vector3.up * offsetY, item);
+        if (Physics.Raycast(new Ray(transform.position, Vector3.down), out RaycastHit hit))
+        {
+            if (hit.transform.TryGetComponent(out Platform platform))
+            {
+                if (_pool.TryGetNext(out Obstacle item))
+                {
+                    platform.PlaceObstacle(hit.point + Vector3.up * offsetY, item);
+                }
+            }
+        }
     }
 
     public virtual void SpawnGroup()
     {
-        TrySpawn(0);
+        TrySpawn();
         SpawnFinished?.Invoke();
     }
 }
