@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlatformsMover : MonoBehaviour
@@ -9,6 +10,12 @@ public class PlatformsMover : MonoBehaviour
 
     private Queue<Platform> _platforms = new Queue<Platform>();
     private Vector3 _endPosition;
+
+    public bool TryGetPlatform(Vector3 position, out Platform platform)
+    {
+        platform = _platforms.FirstOrDefault(item => position.x >= item.transform.position.x && position.x <= item.EndPosition.x);
+        return platform != null;
+    }
 
     private void Awake()
     {

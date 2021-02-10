@@ -7,7 +7,7 @@ public class CoinArcSpawner : CoinSpawner
     [SerializeField] private Jumper _player;
 
     private float _jumpSpeed;
-    private float _arcSpawnTime;
+    private int _arcLength;
 
     public override void SpawnGroup()
     {
@@ -17,13 +17,14 @@ public class CoinArcSpawner : CoinSpawner
     private void Awake()
     {
         _jumpSpeed = _player.JumpSpeed;
-        _arcSpawnTime = _jumpSpeed / -Physics.gravity.y * 2;
+        float arcSpawnTime = _jumpSpeed / -Physics.gravity.y * 2;
+        _arcLength = (int)(arcSpawnTime / _coinSpawnDelay) + 1;
     }
 
     private IEnumerator SpawnArcLoop()
     {
         float time = 0;
-        while (time <= _arcSpawnTime)
+        for (int i = 0; i < _arcLength; i++)
         {
             TrySpawn(GetJumpHeight(time));
             yield return new WaitForSeconds(_coinSpawnDelay);
