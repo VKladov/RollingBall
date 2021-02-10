@@ -15,12 +15,12 @@ public class Page : MonoBehaviour
 
     public void Open()
     {
-        _animator.SetTrigger("open");
+        _animator.SetTrigger(PageAnimator.States.Open);
     }
 
     public void Close()
     {
-        _animator.SetTrigger("close");
+        _animator.SetTrigger(PageAnimator.States.Close);
     }
 
     private void Awake()
