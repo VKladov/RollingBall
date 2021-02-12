@@ -9,11 +9,6 @@ public class CoinArcSpawner : CoinSpawner
     private float _jumpSpeed;
     private int _arcLength;
 
-    public override void SpawnGroup()
-    {
-        StartCoroutine(SpawnArcLoop());
-    }
-
     private void Awake()
     {
         _jumpSpeed = _player.JumpSpeed;
@@ -21,18 +16,12 @@ public class CoinArcSpawner : CoinSpawner
         _arcLength = (int)(arcSpawnTime / _coinSpawnDelay) + 1;
     }
 
-    private IEnumerator SpawnArcLoop()
+    protected override float GetYOffset(int index)
     {
-        float time = 0;
-        for (int i = 0; i < _arcLength; i++)
-        {
-            TrySpawn(GetJumpHeight(time));
-            yield return new WaitForSeconds(_coinSpawnDelay);
-            time += _coinSpawnDelay;
-        }
-
-        SpawnFinished?.Invoke();
+        return GetJumpHeight(index * GetSpawnDelay());
     }
+
+    protected override int GetGroupLength() => _arcLength;
 
     private float GetJumpHeight(float time)
     {

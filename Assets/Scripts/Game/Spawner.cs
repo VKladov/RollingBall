@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Spawner : MonoBehaviour
+public abstract class Spawner : MonoBehaviour
 {
     [SerializeField] private ObjectsPool _pool;
     [SerializeField] private PlatformsMover _platformMover;
@@ -12,11 +12,27 @@ public class Spawner : MonoBehaviour
 
     public virtual float RandomDelayBefore => Random.Range(2, 3);
 
-    public virtual void SpawnGroup()
+    public void SpawnGroup()
     {
-        TrySpawn();
+        StartCoroutine(SpawnLoop());
+    }
+
+    private IEnumerator SpawnLoop()
+    {
+        int length = GetGroupLength();
+        for (int i = 0; i < length; i++)
+        {
+            TrySpawn(GetYOffset(i));
+            yield return new WaitForSeconds(GetSpawnDelay());
+        }
         SpawnFinished?.Invoke();
     }
+
+    protected abstract float GetSpawnDelay();
+
+    protected virtual int GetGroupLength() => 1;
+
+    protected virtual float GetYOffset(int index) => 0;
 
     protected void TrySpawn(float offsetY = 0)
     {

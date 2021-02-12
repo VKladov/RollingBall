@@ -210,10 +210,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 427814391}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71f9da9e2d7254f08b962573eafcdfee, type: 3}
+  m_Script: {fileID: 11500000, guid: ad66dec736f4c4f0883a7d39d48bd7de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _pool: {fileID: 427814394}
+  _platformMover: {fileID: 353979705}
 --- !u!114 &427814394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -676,8 +677,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1148186081}
   - component: {fileID: 1148186080}
-  - component: {fileID: 1148186082}
   - component: {fileID: 1148186079}
+  - component: {fileID: 1148186082}
   m_Layer: 0
   m_Name: CoinSpawner
   m_TagString: Untagged
@@ -698,6 +699,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pool: {fileID: 1148186080}
+  _platformMover: {fileID: 353979705}
   _coinSpawnDelay: 0.2
   _player: {fileID: 1684707910}
 --- !u!114 &1148186080
@@ -742,6 +744,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pool: {fileID: 1148186080}
+  _platformMover: {fileID: 353979705}
   _coinSpawnDelay: 0.2
 --- !u!1 &1166410346
 GameObject:
